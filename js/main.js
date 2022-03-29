@@ -1,8 +1,10 @@
 function generateNumber(from, to) {
-  if (from <= to) {
-    return Math.round(from + Math.random() * (to - from));
+  if (from >= to) {
+    let tmp = from;
+    from = to;
+    to = tmp;
   }
-  return 'Недопустимые границы диапазона';
+  return Math.round(from + Math.random() * (to - from));
 }
 
 generateNumber(10, 1);
