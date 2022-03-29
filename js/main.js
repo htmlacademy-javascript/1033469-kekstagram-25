@@ -1,6 +1,6 @@
 function generateNumber(from, to) {
   if (from >= to) {
-    let tmp = from;
+    const tmp = from;
     from = to;
     to = tmp;
   }
