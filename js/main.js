@@ -81,4 +81,4 @@ function generateDescriptionsList(length) {
   return descriptionsList;
 }
 
-console.log(generateDescriptionsList(10));
+generateDescriptionsList(10);
