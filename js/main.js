@@ -29,7 +29,7 @@ function checkLenght(string, maxLength) {
   return string.length <= maxLength;
 }
 
-checkLenght('abababab', 5);
+checkLenght('abab', 5);
 
 function generateRandomList(number) {
   const list = [];
