@@ -9,20 +9,20 @@ function generateNumber(from, to) {
 
 const numberCommentsId = 1000;
 
-const messagesList = ['Всё отлично!',
+const messageList = ['Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 
-const namesList = ['Амели', 'Афина', 'Бастет', 'Бисквит', 'Валерьян', 'Грейс', 'Джеки', 'Джокер',
+const nameList = ['Амели', 'Афина', 'Бастет', 'Бисквит', 'Валерьян', 'Грейс', 'Джеки', 'Джокер',
   'Жасмин', 'Ирбис', 'Йода', 'Кекс', 'Кефир', 'Конфуций', 'Лаванда', 'Мандарин', 'Марс', 'Одри',
   'Орландо', 'Пончик', 'Рикки', 'Руни', 'Серсея', 'Хеннеси', 'Чарльз', 'Чубака', 'Шаман'];
 
-const photoDescriptionsList = [':)',':(',';)','!','','<3','o_O','-_-'];
+const photoDescriptionList = [':)',':(',';)','!','','<3','o_O','-_-'];
 
-const commentsIdList = Array(numberCommentsId+1).fill(false);
+const commentIdList = Array(numberCommentsId+1).fill(false);
 
 
 function checkLenght(string, maxLength) {
@@ -45,40 +45,40 @@ function generateRandomList(number) {
   return list;
 }
 
-function generateCommentsList(number) {
-  const commentsList = [];
+function generateCommentList(number) {
+  const commentList = [];
   for (let i = 0; i < number; i++) {
     let id = generateNumber(1, numberCommentsId);
-    while (commentsIdList[id]) {
+    while (commentIdList[id]) {
       id = generateNumber(1, numberCommentsId);
     }
-    commentsIdList[id] = true;
+    commentIdList[id] = true;
     const comment = {
       id : id,
       avatar: `img/avatar-${generateNumber(1,6)}.svg`,
-      message: messagesList[generateNumber(0, messagesList.length-1)],
-      name: namesList[generateNumber(0, namesList.length - 1)]
+      message: messageList[generateNumber(0, messageList.length-1)],
+      name: nameList[generateNumber(0, nameList.length - 1)]
     };
-    commentsList.push(comment);
+    commentList.push(comment);
   }
-  return commentsList;
+  return commentList;
 }
 
-function generateDescriptionsList(length) {
-  const descriptionsList = [];
+function generateDescriptionList(length) {
+  const descriptionList = [];
   const randomListId = generateRandomList(length);
   const randomListUrl = generateRandomList(length);
   for (let i = 0; i < length; i++) {
     const description = {
       id : randomListId[i],
       url : `photos${randomListUrl[i]}.jpg`,
-      description : photoDescriptionsList[generateNumber(0, photoDescriptionsList.length-1)],
+      description : photoDescriptionList[generateNumber(0, photoDescriptionList.length-1)],
       likes: generateNumber(15, 200),
-      comments: generateCommentsList(generateNumber(0, 4))
+      comments: generateCommentList(generateNumber(0, 4))
     };
-    descriptionsList.push(description);
+    descriptionList.push(description);
   }
-  return descriptionsList;
+  return descriptionList;
 }
 
-generateDescriptionsList(10);
+generateDescriptionList(10);
