@@ -1,4 +1,4 @@
-import {generateNumber, generateRandomList} from './util';
+import {generateNumber, generateRandomList} from './util.js';
 
 const numberCommentsId = 1000;
 
@@ -53,4 +53,5 @@ function generateDescriptionList(length) {
   return descriptionList;
 }
 
-generateDescriptionList(10);
+const descriptionList = generateDescriptionList(10);
+export {descriptionList};
