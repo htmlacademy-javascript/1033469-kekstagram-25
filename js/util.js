@@ -5,7 +5,7 @@ const generateNumber = (from, to) => {
     to = tmp;
   }
   return Math.round(from + Math.random() * (to - from));
-}
+};
 
 const generateRandomList = (number) => {
   const list = [];
@@ -19,7 +19,7 @@ const generateRandomList = (number) => {
     list[j] = tmp;
   }
   return list;
-}
+};
 
 
 const checkLenght = (string, maxLength) => string.length <= maxLength;
