@@ -1,44 +1,60 @@
-/*const pictures = document.querySelector('.pictures');
+import {descriptionList} from './data.js';
+
+const body = document.querySelector('body');
+const pictures = document.querySelector('.pictures');
 const pictureList = pictures.children;
 const fullPicture = document.querySelector('.big-picture');
+const closeButton = fullPicture.querySelector('.big-picture__cancel');
+const commentTemplate = document.querySelector('.social__comment');
 
-const openPicture = (picture) => {
-  picture.addEventListener('click', function(){
+const createComments = (comments) => {
+  const fragment = document.createDocumentFragment();
+  for (const comment of comments) {
+    const newElement = commentTemplate.cloneNode(true);
+    const img = newElement.querySelector('.social__picture');
+    img.src = comment.avatar;
+    img.alt = comment.name;
+    newElement.querySelector('.social__text').textContent = comment.message;
+    fragment.appendChild(newElement);
+  }
+  return fragment;
+};
 
+const openPicture = (picture, description) => {
+  picture.addEventListener('click', () => {
+    fullPicture.classList.remove('hidden');
+    fullPicture.querySelector('.social__comment-count').classList.add('hidden');
+    fullPicture.querySelector('.comments-loader').classList.add('hidden');
+    body.classList.add('modal-open');
+    const img = fullPicture.querySelector('.big-picture__img img');
+    img.src = picture.querySelector('.picture__img').src;
+    fullPicture.querySelector('.likes-count').textContent = picture.querySelector('.picture__likes').textContent;
+    fullPicture.querySelector('.comments-count').textContent = picture.querySelector('.picture__comments').textContent;
+
+    fullPicture.querySelector('.social__caption').textContent = description.description;
+    const comments = fullPicture.querySelector('.social__comments');
+    while (comments.firstChild) {
+      comments.firstChild.remove();
+    }
+    comments.appendChild(createComments(description.comments));
   });
+};
+
+for (let i = 0; i < pictureList.length; i++) {
+  openPicture(pictureList[i], descriptionList[i]);
 }
 
-for (const picture of pictureList) {
-  openPicture(picture);
-}
+const close = () => {
+  fullPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
+  fullPicture.querySelector('.social__comment-count').classList.remove('hidden');
+  fullPicture.querySelector('.comments-loader').classList.remove('hidden');
+};
 
+closeButton.addEventListener('click', () => close());
 
-*/
-
-/*Заведите модуль, который будет отвечать за отрисовку окна с полноразмерным изображением.
-
-Для отображения окна нужно удалять класс hidden у элемента .big-picture и каждый раз заполнять его данными о конкретной фотографии:
-
-Адрес изображения url подставьте как src изображения внутри блока .big-picture__img.
-
-Количество лайков likes подставьте как текстовое содержание элемента .likes-count.
-
-Количество комментариев comments подставьте как текстовое содержание элемента .comments-count.
-
-Список комментариев под фотографией: комментарии должны вставляться в блок .social__comments. Разметка каждого комментария должна выглядеть так:
-
-<li class="social__comment">
-    <img
-        class="social__picture"
-        src="{{аватар}}"
-        alt="{{имя комментатора}}"
-        width="35" height="35">
-    <p class="social__text">{{текст комментария}}</p>
-</li>
-Описание фотографии description вставьте строкой в блок .social__caption.
-
-После открытия окна спрячьте блоки счётчика комментариев .social__comment-count и загрузки новых комментариев .comments-loader, добавив им класс hidden, с ними мы разберёмся позже, в другом домашнем задании.
-
-После открытия окна добавьте тегу <body> класс modal-open, чтобы контейнер с фотографиями позади не прокручивался при скролле. При закрытии окна не забудьте удалить этот класс.
-
-Напишите код для закрытия окна по нажатию клавиши Esc и клике по иконке закрытия. */
+document.addEventListener('keydown', (evt) => {
+  if (evt.keyCode === 27) {
+    close();
+  }
+});
