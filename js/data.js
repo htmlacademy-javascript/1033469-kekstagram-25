@@ -37,7 +37,7 @@ const generateCommentList = (number) => {
 }
 
 const generateDescriptionList = (length) => {
-  const descriptionList = [];
+  const descriptions = [];
   const randomListId = generateRandomList(length);
   const randomListUrl = generateRandomList(length);
   for (let i = 0; i < length; i++) {
@@ -48,9 +48,9 @@ const generateDescriptionList = (length) => {
       likes: generateNumber(15, 200),
       comments: generateCommentList(generateNumber(0, 4))
     };
-    descriptionList.push(description);
+    descriptions.push(description);
   }
-  return descriptionList;
+  return descriptions;
 }
 
 const descriptionList = generateDescriptionList(25);
