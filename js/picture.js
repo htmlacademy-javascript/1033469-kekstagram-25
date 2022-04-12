@@ -19,4 +19,5 @@ for (const description of descriptionList) {
   createPicture(description);
 }
 
-console.log(fragment);
+const pictures = document.querySelector('.pictures');
+pictures.appendChild(fragment);

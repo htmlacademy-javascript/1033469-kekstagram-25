@@ -43,7 +43,7 @@ function generateDescriptionList(length) {
   for (let i = 0; i < length; i++) {
     const description = {
       id : randomListId[i],
-      url : `photos${randomListUrl[i]}.jpg`,
+      url : `photos/${randomListUrl[i]}.jpg`,
       description : photoDescriptionList[generateNumber(0, photoDescriptionList.length-1)],
       likes: generateNumber(15, 200),
       comments: generateCommentList(generateNumber(0, 4))
@@ -53,5 +53,5 @@ function generateDescriptionList(length) {
   return descriptionList;
 }
 
-const descriptionList = generateDescriptionList(10);
+const descriptionList = generateDescriptionList(25);
 export {descriptionList};

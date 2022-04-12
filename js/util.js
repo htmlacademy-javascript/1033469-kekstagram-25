@@ -13,7 +13,7 @@ function generateRandomList(number) {
     list.push(i);
   }
   for (let i = 0; i < number; i++) {
-    const j = generateNumber(1, number);
+    const j = generateNumber(0, number-1);
     const tmp = list[i];
     list[i] = list[j];
     list[j] = tmp;
