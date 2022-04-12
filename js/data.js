@@ -34,7 +34,7 @@ const generateCommentList = (number) => {
     commentList.push(comment);
   }
   return commentList;
-}
+};
 
 const generateDescriptionList = (length) => {
   const descriptions = [];
@@ -51,7 +51,7 @@ const generateDescriptionList = (length) => {
     descriptions.push(description);
   }
   return descriptions;
-}
+};
 
 const descriptionList = generateDescriptionList(25);
 export {descriptionList};
