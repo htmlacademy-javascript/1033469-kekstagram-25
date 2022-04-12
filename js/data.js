@@ -17,7 +17,7 @@ const photoDescriptionList = [':)',':(',';)','!','','<3','o_O','-_-'];
 
 const commentIdList = Array(numberCommentsId+1).fill(false);
 
-function generateCommentList(number) {
+const generateCommentList = (number) => {
   const commentList = [];
   for (let i = 0; i < number; i++) {
     let id = generateNumber(1, numberCommentsId);
@@ -36,7 +36,7 @@ function generateCommentList(number) {
   return commentList;
 }
 
-function generateDescriptionList(length) {
+const generateDescriptionList = (length) => {
   const descriptionList = [];
   const randomListId = generateRandomList(length);
   const randomListUrl = generateRandomList(length);

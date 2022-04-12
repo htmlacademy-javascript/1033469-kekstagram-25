@@ -4,7 +4,7 @@ const template = document.querySelector('#picture').content;
 const newPic = template.querySelector('.picture');
 const fragment = document.createDocumentFragment();
 
-const createPicture = function(description) {
+const createPicture = (description) => {
   const picture = newPic.cloneNode(true);
   const image = picture.querySelector('.picture__img');
   image.src = description.url;

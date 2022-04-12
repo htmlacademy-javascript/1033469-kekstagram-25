@@ -1,4 +1,4 @@
-function generateNumber(from, to) {
+const generateNumber = (from, to) => {
   if (from >= to) {
     const tmp = from;
     from = to;
@@ -7,7 +7,7 @@ function generateNumber(from, to) {
   return Math.round(from + Math.random() * (to - from));
 }
 
-function generateRandomList(number) {
+const generateRandomList = (number) => {
   const list = [];
   for (let i = 1; i <= number; i++) {
     list.push(i);
@@ -22,9 +22,7 @@ function generateRandomList(number) {
 }
 
 
-function checkLenght(string, maxLength) {
-  return string.length <= maxLength;
-}
+const checkLenght = (string, maxLength) => string.length <= maxLength;
 
 checkLenght('abab', 5);
 
