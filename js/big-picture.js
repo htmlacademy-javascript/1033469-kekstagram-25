@@ -1,5 +1,3 @@
-import {descriptionList} from './data.js';
-
 const body = document.querySelector('body');
 const pictures = document.querySelector('.pictures');
 const pictureList = pictures.children;
@@ -7,20 +5,24 @@ const fullPicture = document.querySelector('.big-picture');
 const closeButton = fullPicture.querySelector('.big-picture__cancel');
 const commentTemplate = document.querySelector('.social__comment');
 
-const createComments = (comments) => {
-  const fragment = document.createDocumentFragment();
-  for (const comment of comments) {
-    const newElement = commentTemplate.cloneNode(true);
-    const img = newElement.querySelector('.social__picture');
-    img.src = comment.avatar;
-    img.alt = comment.name;
-    newElement.querySelector('.social__text').textContent = comment.message;
-    fragment.appendChild(newElement);
+const parseComments = (comments) => {
+  const commentsFragment = document.createDocumentFragment();
+  if (comments.length > 0) {
+    const commentList =  comments.split('##');
+    for (const comment of commentList) {
+      const list = comment.split('$');
+      const newElement = commentTemplate.cloneNode(true);
+      const img = newElement.querySelector('.social__picture');img.src = comment.avatar;
+      img.src = list[0];
+      img.alt = list[1];
+      newElement.querySelector('.social__text').textContent = list[2];
+      commentsFragment.appendChild(newElement);
+    }
+    return commentsFragment;
   }
-  return fragment;
 };
 
-const openPicture = (picture, description) => {
+const openPicture = (picture) => {
   picture.addEventListener('click', () => {
     fullPicture.classList.remove('hidden');
     fullPicture.querySelector('.social__comment-count').classList.add('hidden');
@@ -31,17 +33,18 @@ const openPicture = (picture, description) => {
     fullPicture.querySelector('.likes-count').textContent = picture.querySelector('.picture__likes').textContent;
     fullPicture.querySelector('.comments-count').textContent = picture.querySelector('.picture__comments').textContent;
 
-    fullPicture.querySelector('.social__caption').textContent = description.description;
+    fullPicture.querySelector('.social__caption').textContent = picture.dataset.description;
     const comments = fullPicture.querySelector('.social__comments');
     while (comments.firstChild) {
       comments.firstChild.remove();
     }
-    comments.appendChild(createComments(description.comments));
+    const comm = parseComments(picture.dataset.commentList);
+    comments.appendChild(comm);
   });
 };
 
-for (let i = 0; i < pictureList.length; i++) {
-  openPicture(pictureList[i], descriptionList[i]);
+for (const picture of pictureList) {
+  openPicture(picture);
 }
 
 const close = () => {
@@ -54,7 +57,7 @@ const close = () => {
 closeButton.addEventListener('click', () => close());
 
 document.addEventListener('keydown', (evt) => {
-  if (evt.keyCode === 27) {
+  if (evt.key === 'Escape') {
     close();
   }
 });
