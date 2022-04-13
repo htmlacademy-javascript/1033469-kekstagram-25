@@ -1,8 +1,8 @@
 const bodyElement = document.querySelector('body');
 const pictures = document.querySelector('.pictures');
 const pictureList = pictures.children;
-const fullPicture = document.querySelector('.big-picture');
-const closeButton = fullPicture.querySelector('.big-picture__cancel');
+const bigPicture = document.querySelector('.big-picture');
+const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const commentTemplate = document.querySelector('.social__comment');
 
 const getCommentListElement = (comments) => {
@@ -22,19 +22,19 @@ const getCommentListElement = (comments) => {
   }
 };
 
-const getFullPicture = (picture) => {
+const getBigPicture = (picture) => {
   picture.addEventListener('click', () => {
-    fullPicture.classList.remove('hidden');
-    fullPicture.querySelector('.social__comment-count').classList.add('hidden');
-    fullPicture.querySelector('.comments-loader').classList.add('hidden');
+    bigPicture.classList.remove('hidden');
+    bigPicture.querySelector('.social__comment-count').classList.add('hidden');
+    bigPicture.querySelector('.comments-loader').classList.add('hidden');
     bodyElement.classList.add('modal-open');
-    const img = fullPicture.querySelector('.big-picture__img img');
+    const img = bigPicture.querySelector('.big-picture__img img');
     img.src = picture.querySelector('.picture__img').src;
-    fullPicture.querySelector('.likes-count').textContent = picture.querySelector('.picture__likes').textContent;
-    fullPicture.querySelector('.comments-count').textContent = picture.querySelector('.picture__comments').textContent;
+    bigPicture.querySelector('.likes-count').textContent = picture.querySelector('.picture__likes').textContent;
+    bigPicture.querySelector('.comments-count').textContent = picture.querySelector('.picture__comments').textContent;
 
-    fullPicture.querySelector('.social__caption').textContent = picture.dataset.description;
-    const comments = fullPicture.querySelector('.social__comments');
+    bigPicture.querySelector('.social__caption').textContent = picture.dataset.description;
+    const comments = bigPicture.querySelector('.social__comments');
     while (comments.firstChild) {
       comments.firstChild.remove();
     }
@@ -45,15 +45,15 @@ const getFullPicture = (picture) => {
 
 const addPictureEventListeners = () => {
   for (const picture of pictureList) {
-    getFullPicture(picture);
+    getBigPicture(picture);
   }
 };
 
 const closeBigPicture = () => {
-  fullPicture.classList.add('hidden');
+  bigPicture.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-  fullPicture.querySelector('.social__comment-count').classList.remove('hidden');
-  fullPicture.querySelector('.comments-loader').classList.remove('hidden');
+  bigPicture.querySelector('.social__comment-count').classList.remove('hidden');
+  bigPicture.querySelector('.comments-loader').classList.remove('hidden');
 };
 
 closeButton.addEventListener('click', () => closeBigPicture());

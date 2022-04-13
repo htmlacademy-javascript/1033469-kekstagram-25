@@ -14,7 +14,6 @@ const getComments = (comments) => {
     }
     commentString += newComment;
     tmp++;
-
   }
   return commentString;
 };
