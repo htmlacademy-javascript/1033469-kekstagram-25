@@ -26,4 +26,4 @@ const checkLenght = (string, maxLength) => string.length <= maxLength;
 
 checkLenght('abab', 5);
 
-export {generateNumber, generateRandomList};
+export {generateNumber, generateRandomList, checkLenght};
