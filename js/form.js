@@ -1,11 +1,26 @@
-/*import {checkLenght} from "./util.js";
+//import {checkLenght} from './util.js';
+import '../pristine/pristine.min.js';
 
 const form = document.querySelector('.img-upload__form');
 const formOverlay = document.querySelector('.img-upload__overlay');
+const bodyElement = document.querySelector('body');
 
-const checkForm = () => {};
+const uploadFile = document.querySelector('#upload-file');
+//const preview = document.querySelector('.img-upload__preview img');
 
-const checkHashtag = (hashtag) => {
+const uploadCancelButton = document.querySelector('.img-upload__cancel');
+
+const closeForm = () => {formOverlay.classList.add('hidden');};
+
+uploadCancelButton.addEventListener('click', () => closeForm());
+
+uploadFile.addEventListener('change', () => {
+  formOverlay.classList.remove('hidden');
+  //preview.src =
+
+});
+
+const validateHashtag = (hashtag) => {
   const pattern = /^#[0-9A-Za-zА-Яа-яЁё]{1,19}$/;
   const hashtagList = hashtag.split(' ');
   let result = true;
@@ -13,7 +28,8 @@ const checkHashtag = (hashtag) => {
   const hashtags = new Set();
   for (const tag of hashtagList) {
     result = result && (pattern.test(tag) || tag === '');
-    if (tag != '') {
+    // eslint-disable-next-line eqeqeq
+    if (tag !== '') {
       count++;
       hashtags.add(tag.toLowerCase());
     }
@@ -22,46 +38,43 @@ const checkHashtag = (hashtag) => {
   return result;
 };
 
-const checkComment = (comment) => checkLenght(comment, 140);
-const button = document.querySelector('.img-upload__control::after');
-button.addEventListener('click', () => formOverlay.classList.remove('hidden'));
+//const checkComment = (comment) => checkLenght(comment, 140);
 
-form.addEventListener('submit', (evt)=>{
-  if (!checkForm) {
+//const button = document.querySelector('.img-upload__control::after');
+//button.addEventListener('click', () => formOverlay.classList.remove('hidden'));
+
+const pristine = new Pristine(form);
+
+pristine.addValidator(
+  form.querySelector('.text__hashtags'),
+  validateHashtag
+);
+
+form.addEventListener('submit', (evt) => {
+  const isValid = pristine.validate();
+  let formMessage;
+  if (!isValid) {
     evt.preventDefault();
+    formMessage =  document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+    formMessage.querySelector('.error__button').classList.add('button');
+  } else {
+    formMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+    formMessage.querySelector('.success__button').classList.add('button');
   }
+  formMessage.style.zIndex = 10;
+  formMessage.classList.add('form-message');
+  const formMessageButton = formMessage.querySelector('button');
+  formMessageButton.addEventListener('click', () => {
+    const message = document.querySelector('.form-message');
+    message.remove();
+  });
+  bodyElement.appendChild(formMessage);
 });
 
-//new Pristine(form);*/
 
-
-/*
-Если форма заполнена верно, то после отправки покажется страница сервера (по адресу из атрибута action тега form) с успешно отправленными данными.
-Если же форма пропустила какие-то некорректные значения, то будет показана страница с допущенными ошибками. В идеале у пользователя не должно быть сценария, при котором он может отправить некорректную форму.
-
-Проверьте разметку вашего проекта и добавьте недостающие атрибуты.
-Например, всем обязательным полям нужно добавить атрибут required. Затем проверьте, правильные ли типы стоят у нужных полей, если нет — проставьте правильные.
-
-Изучите, что значит загрузка изображения, и как, когда и каким образом показывается форма редактирования изображения.
-Напишите код и добавьте необходимые обработчики для реализации этого пункта техзадания.
-В работе вы можете опираться на код показа окна с полноразмерной фотографией, который вы, возможно, уже написали в предыдущей домашней работе.
-
-Важно. Подстановка выбранного изображения в форму — это отдельная домашняя работа. В данном задании этот пункт реализовывать не нужно.
-
-После реализуйте закрытие формы.
-
-Обратите внимание, что при закрытии формы дополнительно необходимо сбрасывать значение поля выбора файла #upload-file.
-В принципе, всё будет работать, если при повторной попытке загрузить в поле другую фотографию.
-Но! Событие change не сработает, если пользователь попробует загрузить ту же фотографию, а значит окно с формой не отобразится, что будет нарушением техзадания.
-Значение других полей формы также нужно сбрасывать.
-
-Напишите код для валидации формы добавления изображения. Список полей для валидации:
-
-Хэш-теги
-Комментарий
-На расширенном тарифе валидацию хэш-тегов делать не нужно. Достаточно проверки, что поле не пустое.
-
-Реализуйте логику проверки так, чтобы, как минимум, она срабатывала при попытке отправить форму и не давала этого сделать, если форма заполнена не по правилам.
-При желании, реализуйте проверки сразу при вводе значения в поле.
-
-*/
+document.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape' && document.querySelector('.form-message')) {
+    const formMessage = document.querySelector('.form-message');
+    formMessage.remove();
+  }
+});

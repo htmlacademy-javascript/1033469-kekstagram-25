@@ -30,7 +30,7 @@
       <section class="img-upload">
         <div class="img-upload__wrapper">
           <h2 class="img-upload__title  visually-hidden">Загрузка фотографии</h2>
-          <form class="img-upload__form" id="upload-select-image" method="post" enctype="multipart/form-data" autocomplete="off" action=" https://25.javascript.pages.academy/kekstagram">
+          <form class="img-upload__form" id="upload-select-image" method="post" enctype="multipart/form-data" autocomplete="off" action="https://25.javascript.pages.academy/kekstagram">
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
@@ -39,7 +39,7 @@
             </fieldset>
 
             <!-- Форма редактирования изображения -->
-            <div class="img-upload__overlay  hidden">
+            <div class="img-upload__overlay hidden">
               <div class="img-upload__wrapper">
                 <div class="img-upload__preview-container">
 
@@ -115,8 +115,8 @@
 
                 <!-- Добавление хэш-тегов и комментария к изображению -->
                 <fieldset class="img-upload__text text">
-                  <input type="text" class="text__hashtags" name="hashtags" placeholder="#ХэшТег">
-                  <textarea class="text__description" name="description" placeholder="Ваш комментарий..."></textarea>
+                  <input type="text" class="text__hashtags" name="hashtags" placeholder="#ХэшТег" data-pristine-message="Некорректные данные">
+                  <textarea class="text__description" name="description" placeholder="Ваш комментарий..." maxlength="140" data-pristine-maxlength-message="Максимум 140 символов"></textarea>
                 </fieldset>
 
                 <!-- Кнопка для отправки данных на сервер -->

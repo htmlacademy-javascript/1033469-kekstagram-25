@@ -23,24 +23,26 @@ const getCommentListElement = (comments) => {
 };
 
 const getBigPicture = (picture) => {
-  picture.addEventListener('click', () => {
-    bigPicture.classList.remove('hidden');
-    bigPicture.querySelector('.social__comment-count').classList.add('hidden');
-    bigPicture.querySelector('.comments-loader').classList.add('hidden');
-    bodyElement.classList.add('modal-open');
-    const img = bigPicture.querySelector('.big-picture__img img');
-    img.src = picture.querySelector('.picture__img').src;
-    bigPicture.querySelector('.likes-count').textContent = picture.querySelector('.picture__likes').textContent;
-    bigPicture.querySelector('.comments-count').textContent = picture.querySelector('.picture__comments').textContent;
+  if(picture.classList.contains('picture')){
+    picture.addEventListener('click', () => {
+      bigPicture.classList.remove('hidden');
+      bigPicture.querySelector('.social__comment-count').classList.add('hidden');
+      bigPicture.querySelector('.comments-loader').classList.add('hidden');
+      bodyElement.classList.add('modal-open');
+      const img = bigPicture.querySelector('.big-picture__img img');
+      img.src = picture.querySelector('.picture__img').src;
+      bigPicture.querySelector('.likes-count').textContent = picture.querySelector('.picture__likes').textContent;
+      bigPicture.querySelector('.comments-count').textContent = picture.querySelector('.picture__comments').textContent;
 
-    bigPicture.querySelector('.social__caption').textContent = picture.dataset.description;
-    const comments = bigPicture.querySelector('.social__comments');
-    while (comments.firstChild) {
-      comments.firstChild.remove();
-    }
-    const comm = getCommentListElement(picture.dataset.commentList);
-    comments.appendChild(comm);
-  });
+      bigPicture.querySelector('.social__caption').textContent = picture.dataset.description;
+      const comments = bigPicture.querySelector('.social__comments');
+      while (comments.firstChild) {
+        comments.firstChild.remove();
+      }
+      const comm = getCommentListElement(picture.dataset.commentList);
+      comments.appendChild(comm);
+    });
+  }
 };
 
 const addPictureEventListeners = () => {
