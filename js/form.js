@@ -41,7 +41,6 @@ const validateHashtag = (hashtag) => {
 //const checkComment = (comment) => checkLenght(comment, 140);
 
 //const button = document.querySelector('.img-upload__control::after');
-//button.addEventListener('click', () => formOverlay.classList.remove('hidden'));
 
 const pristine = new Pristine(form);
 
