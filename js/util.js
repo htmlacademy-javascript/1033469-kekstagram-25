@@ -24,6 +24,11 @@ const generateRandomList = (number) => {
 
 const checkLenght = (string, maxLength) => string.length <= maxLength;
 
+const min = (a, b) => {
+  if (a < b) {return a;}
+  return b;
+};
+
 checkLenght('abab', 5);
 
-export {generateNumber, generateRandomList, checkLenght};
+export {generateNumber, generateRandomList, checkLenght, min};

@@ -46,7 +46,7 @@ const generateDescriptionList = (length) => {
       url : `photos/${randomListUrl[i]}.jpg`,
       description : photoDescriptionList[generateNumber(0, photoDescriptionList.length-1)],
       likes: generateNumber(15, 200),
-      comments: generateCommentList(generateNumber(0, 4))
+      comments: generateCommentList(generateNumber(0, 23))
     };
     descriptions.push(description);
   }
