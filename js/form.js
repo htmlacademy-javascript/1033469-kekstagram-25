@@ -7,6 +7,7 @@ const form = document.querySelector('.img-upload__form');
 const formOverlay = document.querySelector('.img-upload__overlay');
 const bodyElement = document.querySelector('body');
 
+
 const uploadFile = document.querySelector('#upload-file');
 
 const uploadCancelButton = document.querySelector('.img-upload__cancel');
@@ -18,15 +19,19 @@ const closeForm = () => {
   formOverlay.classList.add('hidden');
 };
 
-
 uploadCancelButton.addEventListener('click', () => closeForm());
+
+form.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape' && !document.querySelector('.form-message')) {
+    closeForm();
+  }
+});
 
 uploadFile.addEventListener('change', () => {
   formOverlay.classList.remove('hidden');
   resetScale();
   resetSlider();
-  //preview.src =
-
+  form.reset();
 });
 
 const validateHashtag = (hashtag) => {

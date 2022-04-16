@@ -97,7 +97,7 @@ const setSlider = () => {
 
   addSliderSettings();
 
-  sliderElement.noUiSlider.on('update', (...rest) => {
+  sliderElement.noUiSlider.on('update', () => {
     const tmp = sliderElement.noUiSlider.get();
     valueElement.value = tmp;
     if (filterType !== 'none') {
