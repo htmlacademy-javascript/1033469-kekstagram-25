@@ -1,9 +1,12 @@
+import {min} from './util.js';
+
 const bodyElement = document.querySelector('body');
 const pictures = document.querySelector('.pictures');
 const pictureList = pictures.children;
 const bigPicture = document.querySelector('.big-picture');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const commentTemplate = document.querySelector('.social__comment');
+const commentsLoaderButton = document.querySelector('.comments-loader');
 
 const getCommentListElement = (comments) => {
   const commentsFragment = document.createDocumentFragment();
@@ -22,12 +25,11 @@ const getCommentListElement = (comments) => {
   }
 };
 
+
 const getBigPicture = (picture) => {
   if(picture.classList.contains('picture')){
     picture.addEventListener('click', () => {
       bigPicture.classList.remove('hidden');
-      bigPicture.querySelector('.social__comment-count').classList.add('hidden');
-      bigPicture.querySelector('.comments-loader').classList.add('hidden');
       bodyElement.classList.add('modal-open');
       const img = bigPicture.querySelector('.big-picture__img img');
       img.src = picture.querySelector('.picture__img').src;
@@ -39,8 +41,26 @@ const getBigPicture = (picture) => {
       while (comments.firstChild) {
         comments.firstChild.remove();
       }
-      const comm = getCommentListElement(picture.dataset.commentList);
-      comments.appendChild(comm);
+      const allComments = getCommentListElement(picture.dataset.commentList);
+      const commentsNumber = picture.querySelector('.picture__comments').textContent;
+      let showCommentCounter =  min(5, commentsNumber);
+      const commentCount = document.querySelector('.comments-count--showed');
+      commentCount.textContent = showCommentCounter;
+      commentsLoaderButton.addEventListener('click', () => {
+        if (commentsNumber > showCommentCounter) {
+          const tmp = min(commentsNumber, showCommentCounter+5);
+          for (let i = showCommentCounter; i < tmp; i++) {
+            comments.querySelector(`.social__comment:nth-child(${  i })`).classList.remove('hidden');
+          }
+          showCommentCounter = tmp;
+          commentCount.textContent = showCommentCounter;
+        }
+      });
+
+      comments.appendChild(allComments);
+      for (let i = 5; i< commentsNumber; i++) {
+        comments.querySelector(`.social__comment:nth-child(${  i })`).classList.add('hidden');
+      }
     });
   }
 };
