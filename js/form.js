@@ -1,23 +1,37 @@
 //import {checkLenght} from './util.js';
 import '../pristine/pristine.min.js';
+import {setSlider, resetSlider} from './slider.js';
+import {setRescale, resetScale} from './rescale.js';
 
 const form = document.querySelector('.img-upload__form');
 const formOverlay = document.querySelector('.img-upload__overlay');
 const bodyElement = document.querySelector('body');
 
+
 const uploadFile = document.querySelector('#upload-file');
-//const preview = document.querySelector('.img-upload__preview img');
 
 const uploadCancelButton = document.querySelector('.img-upload__cancel');
 
-const closeForm = () => {formOverlay.classList.add('hidden');};
+setRescale();
+setSlider();
+
+const closeForm = () => {
+  formOverlay.classList.add('hidden');
+};
 
 uploadCancelButton.addEventListener('click', () => closeForm());
 
+form.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape' && !document.querySelector('.form-message')) {
+    closeForm();
+  }
+});
+
 uploadFile.addEventListener('change', () => {
   formOverlay.classList.remove('hidden');
-  //preview.src =
-
+  resetScale();
+  resetSlider();
+  form.reset();
 });
 
 const validateHashtag = (hashtag) => {
