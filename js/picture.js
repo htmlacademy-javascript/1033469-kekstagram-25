@@ -1,8 +1,13 @@
-import {descriptionList} from './data.js';
+//import {descriptionList} from './data.js';
+import {createLoader} from './fetch.js';
+import {addPictureEventListeners} from './big-picture.js';
 
 const template = document.querySelector('#picture').content;
 const newPic = template.querySelector('.picture');
 const fragment = document.createDocumentFragment();
+let count = 0;
+
+const filterButtons = document.querySelectorAll('.img-filters__button');
 
 const getComments = (comments) => {
   let commentString = '';
@@ -30,11 +35,20 @@ const createPicture = (description) => {
   picture.dataset.commentList = comList;
   picture.dataset.description = description.description;
   fragment.appendChild(picture);
+  count++;
 };
 
-for (const description of descriptionList) {
-  createPicture(description);
-}
+const createAllPictures = (descriptionList) => {
+  for (const description of descriptionList) {
+    createPicture(description);
+  }
+};
 
-const pictures = document.querySelector('.pictures');
-pictures.appendChild(fragment);
+
+createLoader((data) => {
+  createAllPictures(data);
+  const pictures = document.querySelector('.pictures');
+  pictures.appendChild(fragment);
+  addPictureEventListeners();
+});
+

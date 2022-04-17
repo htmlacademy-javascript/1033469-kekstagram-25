@@ -8,7 +8,6 @@ let currentScaleValue = 100;
 const setRescale = () => {
   scaleControlValue.value = '100%';
   currentScaleValue = 100;
-
   scaleButtonBigger.addEventListener('click', () => {
     if (currentScaleValue < 100) {
       currentScaleValue += 25;
