@@ -4,6 +4,7 @@ import {setRescale, resetScale} from './rescale.js';
 import { setUserFormSubmit } from './fetch.js';
 import {showPopupFail} from './popup.js';
 
+const bodyElement = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
 const formOverlay = document.querySelector('.img-upload__overlay');
 const uploadFile = document.querySelector('#upload-file');
@@ -29,6 +30,7 @@ fileChooser.addEventListener('change', () => {
 
 const closeForm = () => {
   formOverlay.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
 };
 
 const validateHashtag = (hashtag) => {
@@ -56,7 +58,6 @@ pristine.addValidator(
   validateHashtag
 );
 
-
 uploadCancelButton.addEventListener('click', () => closeForm());
 
 const handleFormKeydown = (evt) => {
@@ -77,6 +78,7 @@ uploadFile.addEventListener('change', () => {
   resetScale();
   resetSlider();
   formOverlay.classList.remove('hidden');
+  bodyElement.classList.add('modal-open');
   form.addEventListener('keydown', handleFormKeydown);
 });
 
