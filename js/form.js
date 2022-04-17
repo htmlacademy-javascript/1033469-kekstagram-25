@@ -1,12 +1,11 @@
-//import {checkLenght} from './util.js';
 import '../pristine/pristine.min.js';
 import {setSlider, resetSlider} from './slider.js';
 import {setRescale, resetScale} from './rescale.js';
 import { setUserFormSubmit } from './fetch.js';
+import {showPopupFail} from './popup.js';
 
 const form = document.querySelector('.img-upload__form');
 const formOverlay = document.querySelector('.img-upload__overlay');
-const bodyElement = document.querySelector('body');
 const uploadFile = document.querySelector('#upload-file');
 const uploadCancelButton = document.querySelector('.img-upload__cancel');
 let firstOpen = true;
@@ -60,51 +59,47 @@ pristine.addValidator(
 
 uploadCancelButton.addEventListener('click', () => closeForm());
 
-form.addEventListener('keydown', (evt) => {
+const handleFormKeydown = (evt) => {
   if (evt.key === 'Escape' && !document.querySelector('.form-message')) {
     closeForm();
+
+    form.removeEventListener('keydown', handleFormKeydown);
   }
-});
+};
 
 uploadFile.addEventListener('change', () => {
-  formOverlay.classList.remove('hidden');
-  resetScale();
-  resetSlider();
   form.reset();
   if (firstOpen) {
     setRescale();
     setSlider();
     firstOpen = false;
   }
+  resetScale();
+  resetSlider();
+  formOverlay.classList.remove('hidden');
+  form.addEventListener('keydown', handleFormKeydown);
 });
+
+
+// TODO: remove event listeners when need no more
 
 form.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();
   evt.preventDefault();
-  let formMessage;
   if (!isValid) {
-    formMessage =  document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-    formMessage.querySelector('.error__button').classList.add('button');
+    showPopupFail();
   } else {
-    formMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
-    formMessage.querySelector('.success__button').classList.add('button');
     const formData = new FormData(evt.target);
-    setUserFormSubmit(formData, closeForm);
+    setUserFormSubmit(formData);
   }
-  formMessage.style.zIndex = 10;
-  formMessage.classList.add('form-message');
-  const formMessageButton = formMessage.querySelector('button');
-  formMessageButton.addEventListener('click', () => {
-    const message = document.querySelector('.form-message');
-    message.remove();
-  });
-  bodyElement.appendChild(formMessage);
 });
 
-
-document.addEventListener('keydown', (evt) => {
+const handleMessageKeydown = (evt) => {
   if (evt.key === 'Escape' && document.querySelector('.form-message')) {
     const formMessage = document.querySelector('.form-message');
     formMessage.remove();
   }
-});
+  document.removeEventListener('keydown', handleFormKeydown);
+};
+
+document.addEventListener('keydown', handleMessageKeydown);

@@ -1,4 +1,3 @@
-//import {descriptionList} from './data.js';
 import {createLoader} from './fetch.js';
 import {addPictureEventListeners} from './big-picture.js';
 

@@ -1,42 +1,19 @@
-/*
-4.2. Если при загрузке данных с сервера произошла ошибка запроса, нужно показать соответствующее сообщение. Дизайн блока с сообщением нужно придумать самостоятельно.
+import { showPopupFail, showPopupSuccess } from './popup.js';
 
-4.4. При нажатии на любую из миниатюр, показывается блок .big-picture, содержащий полноэкранное изображение с количеством лайков и комментариев. Элементу body задаётся класс modal-open.
-Данные, описывающие изображение, должны подставляться в соответствующие элементы в разметке.нажатия)
-
-4.5. Выход из полноэкранного режима просмотра фотографии осуществляется либо нажатием на иконку крестика .big-picture__cancel в правом верхнем углу блока .big-picture, либо нажатием на клавишу Esc.
-У элемента body удаляется класс modal-open.
-*/
+const API_GET = 'https://25.javascript.pages.academy/kekstagram/data';
+const API_POST = 'https://25.javascript.pages.academy/kekstagram';
 
 const createLoader = (onSuccess) => {
-  fetch(
-    'https://25.javascript.pages.academy/kekstagram/data',
-    {
-      method: 'GET',
-      credentials: 'same-origin',
-    },
-  )
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      console.log(response);
-    })
-    .then((photos) => {
-      onSuccess(photos);
-    }).catch((err) => console.log(err));
+  fetch(API_GET)
+    .then((response) => response.ok && response.json())
+    .then((photos) => onSuccess(photos))
+    .catch(() => showPopupFail());
 };
 
-const setUserFormSubmit = (formData, onSuccess) => {
-  fetch(
-    'https://25.javascript.pages.academy/kekstagram',
-    {
-      method: 'POST',
-      body: formData,
-    },
-  ).then(() => onSuccess());
+const setUserFormSubmit = (formData) => {
+  fetch(API_POST, { method: 'POST', body: formData })
+    .then((response) => response.ok ? showPopupSuccess() : showPopupFail())
+    .catch(() => showPopupFail());
 };
-
 
 export {createLoader, setUserFormSubmit};
-

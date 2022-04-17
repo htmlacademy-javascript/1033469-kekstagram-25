@@ -6,14 +6,30 @@ const radioElements = document.querySelectorAll('.effects__radio');
 const previewImg = document.querySelector('.img-upload__preview img');
 let filterType = '';
 
+const SLIDER_STEP = 0.1;
+const SLIDER_MIN = 0;
+const SLIDER_MAX = 1;
+
+const SLIDER_STEP_MARVIN = 1;
+const SLIDER_MIN_MARVIN = 0;
+const SLIDER_MAX_MARVIN = 100;
+
+const SLIDER_STEP_PHOBOS = 0.1;
+const SLIDER_MIN_PHOBOS = 0;
+const SLIDER_MAX_PHOBOS = 3;
+
+const SLIDER_STEP_HEAT = 0.1;
+const SLIDER_MIN_HEAT = 1;
+const SLIDER_MAX_HEAT = 3;
+
 const setSlider = () => {
   noUiSlider.create(sliderElement, {
     range: {
-      min: 0,
-      max: 100,
+      min: SLIDER_MIN,
+      max: SLIDER_MAX,
     },
-    start: 100,
-    step: 1,
+    start: SLIDER_MAX,
+    step: SLIDER_STEP,
     connect: 'lower'
   });
 
@@ -33,11 +49,11 @@ const setSlider = () => {
           if (evt.target.value === 'chrome') {
             sliderElement.noUiSlider.updateOptions({
               range: {
-                min: 0,
-                max: 1,
+                min: SLIDER_MIN,
+                max: SLIDER_MAX,
               },
-              start: 1,
-              step: 0.1
+              start: SLIDER_MAX,
+              step: SLIDER_STEP
             });
             filterType = 'grayscale';
             previewImg.style.filter = `${filterType}(1)`;
@@ -45,11 +61,11 @@ const setSlider = () => {
           if (evt.target.value === 'sepia') {
             sliderElement.noUiSlider.updateOptions({
               range: {
-                min: 0,
-                max: 1,
+                min: SLIDER_MIN,
+                max: SLIDER_MAX,
               },
-              start: 1,
-              step: 0.1
+              start: SLIDER_MAX,
+              step: SLIDER_STEP
             });
             filterType = 'sepia';
             previewImg.style.filter = `${filterType}(1)`;
@@ -57,11 +73,11 @@ const setSlider = () => {
           if (evt.target.value === 'marvin') {
             sliderElement.noUiSlider.updateOptions({
               range: {
-                min: 0,
-                max: 100,
+                min: SLIDER_MIN_MARVIN,
+                max: SLIDER_MAX_MARVIN,
               },
-              start: 100,
-              step: 1
+              start: SLIDER_MAX_MARVIN,
+              step: SLIDER_STEP_MARVIN
             });
             filterType = 'invert';
             previewImg.style.filter = `${filterType}(100%)`;
@@ -69,11 +85,11 @@ const setSlider = () => {
           if (evt.target.value === 'phobos') {
             sliderElement.noUiSlider.updateOptions({
               range: {
-                min: 0,
-                max: 3,
+                min: SLIDER_MIN_PHOBOS,
+                max: SLIDER_MAX_PHOBOS,
               },
-              start: 3,
-              step: 0.1
+              start: SLIDER_MAX_PHOBOS,
+              step: SLIDER_STEP_PHOBOS
             });
             filterType = 'blur';
             previewImg.style.filter = `${filterType}(3px)`;
@@ -81,11 +97,11 @@ const setSlider = () => {
           if (evt.target.value === 'heat') {
             sliderElement.noUiSlider.updateOptions({
               range: {
-                min: 1,
-                max: 3,
+                min: SLIDER_MIN_HEAT,
+                max: SLIDER_MAX_HEAT,
               },
-              start: 3,
-              step: 0.1
+              start: SLIDER_MAX_HEAT,
+              step: SLIDER_STEP_HEAT
             });
             filterType = 'brightness';
             previewImg.style.filter = `${filterType}(3)`;
