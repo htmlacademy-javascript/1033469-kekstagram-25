@@ -8,7 +8,6 @@ const form = document.querySelector('.img-upload__form');
 const formOverlay = document.querySelector('.img-upload__overlay');
 const uploadFile = document.querySelector('#upload-file');
 const uploadCancelButton = document.querySelector('.img-upload__cancel');
-const submitButton = document.querySelector('.img-upload__submit');
 
 let firstOpen = true;
 

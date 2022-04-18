@@ -10,7 +10,6 @@ const template = document.querySelector('#picture').content;
 const newPic = template.querySelector('.picture');
 const fragment = document.createDocumentFragment();
 const pictures = document.querySelector('.pictures');
-let count = 0;
 let loadedData = [];
 
 const getComments = (comments) => {
@@ -39,7 +38,6 @@ const createPicture = (description) => {
   picture.dataset.commentList = comList;
   picture.dataset.description = description.description;
   fragment.appendChild(picture);
-  count++;
 };
 
 const deleteAllPictures = () => {
@@ -51,7 +49,7 @@ const deleteAllPictures = () => {
 const createAllPictures = (descriptionList) => {
   for (const description of descriptionList) {
     createPicture(description);
-  };
+  }
   pictures.appendChild(fragment);
   addPictureEventListeners();
 };
@@ -60,7 +58,7 @@ const createRandomPictures = (descriptionList) => {
   const tmp = generateRandomList(descriptionList.length);
   for (let i = 0; i < RANDOM_PICTURE_NUMBER; i++) {
     createPicture(descriptionList[tmp[i]-1]);
-  };
+  }
   pictures.appendChild(fragment);
   addPictureEventListeners();
 };
@@ -92,10 +90,10 @@ const filterButtons = document.querySelectorAll('.img-filters__button');
 
 filter.classList.remove('img-filters--inactive');
 
-filterButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    filterButtons.forEach((button) => {button.classList.remove('img-filters__button--active')});
-    button.classList.add('img-filters__button--active');
+filterButtons.forEach((filterButton) => {
+  filterButton.addEventListener('click', () => {
+    filterButtons.forEach((button) => {button.classList.remove('img-filters__button--active');});
+    filterButton.classList.add('img-filters__button--active');
   });
 });
 
