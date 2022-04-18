@@ -1,3 +1,5 @@
+import { closeForm } from './form.js';
+
 const showPopupSuccess = () => {
   const bodyElement = document.querySelector('body');
   const formMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
@@ -10,6 +12,7 @@ const showPopupSuccess = () => {
     message.remove();
   });
   bodyElement.appendChild(formMessage);
+  closeForm();
 };
 
 const showPopupFail = () => {
