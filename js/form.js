@@ -31,6 +31,7 @@ fileChooser.addEventListener('change', () => {
 const closeForm = () => {
   formOverlay.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
+  form.reset();
 };
 
 const validateHashtag = (hashtag) => {
@@ -75,7 +76,6 @@ const handleFormKeydown = (evt) => {
 };
 
 uploadFile.addEventListener('change', () => {
-  form.reset();
   if (firstOpen) {
     setRescale();
     setSlider();
@@ -107,3 +107,5 @@ const handleMessageKeydown = (evt) => {
 };
 
 document.addEventListener('keydown', handleMessageKeydown);
+
+export {closeForm};
