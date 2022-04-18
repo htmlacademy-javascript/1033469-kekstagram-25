@@ -67,9 +67,9 @@ const createDiscussedPictures = (descriptionList) => {
   for (let i = 0; i < descriptionList.length; i++) {
     for (let j = 0; j < descriptionList.length - 1; j++) {
       if (descriptionList[j].comments.length < descriptionList[j+1].comments.length) {
-        const tmp = descriptionList[j];
+        const tmpItem = descriptionList[j];
         descriptionList[j] = descriptionList[j+1];
-        descriptionList[j+1] = tmp;
+        descriptionList[j+1] = tmpItem;
       }
     }
   }
