@@ -29,6 +29,25 @@ const min = (a, b) => {
   return b;
 };
 
-checkLenght('abab', 5);
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
 
-export {generateNumber, generateRandomList, checkLenght, min};
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+function throttle (callback, delayBetweenFrames) {
+  let lastTime = 0;
+
+  return (...rest) => {
+    const now = new Date();
+    if (now - lastTime >= delayBetweenFrames) {
+      callback.apply(this, rest);
+      lastTime = now;
+    }
+  };
+}
+
+export {generateNumber, generateRandomList, checkLenght, min, debounce, throttle};

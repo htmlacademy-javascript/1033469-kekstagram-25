@@ -1,6 +1,9 @@
 /* Общие стили. Каркас
    ========================================================================== */
 
+
+@import url('../nouislider/nouislider.css');
+
 @font-face {
   font-family: "Open Sans";
   src: url("../fonts/OpenSansCondensed-Bold.woff2") format("woff2"),
@@ -1415,4 +1418,12 @@ main {
 
 .hidden {
   display: none;
+}
+
+.form__error {
+  margin-top: -15px;
+  color: #ffaa00;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: capitalize;
 }
