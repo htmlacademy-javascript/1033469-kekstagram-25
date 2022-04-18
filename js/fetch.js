@@ -11,7 +11,7 @@ const createLoader = (onSuccess) => {
 };
 
 const setUserFormSubmit = (formData) => {
-  fetch(API_POST, { method: 'POST', body: formData })
+  fetch(API_POST, { method: 'POST', formData })
     .then((response) => response.ok ? showPopupSuccess() : showPopupFail())
     .catch(() => showPopupFail());
 };

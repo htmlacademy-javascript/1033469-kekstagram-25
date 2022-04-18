@@ -1419,3 +1419,11 @@ main {
 .hidden {
   display: none;
 }
+
+.form__error {
+  margin-top: -15px;
+  color: #ffaa00;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: capitalize;
+}

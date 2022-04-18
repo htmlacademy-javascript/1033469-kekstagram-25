@@ -2,13 +2,14 @@ import '../pristine/pristine.min.js';
 import {setSlider, resetSlider} from './slider.js';
 import {setRescale, resetScale} from './rescale.js';
 import { setUserFormSubmit } from './fetch.js';
-import {showPopupFail} from './popup.js';
 
 const bodyElement = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
 const formOverlay = document.querySelector('.img-upload__overlay');
 const uploadFile = document.querySelector('#upload-file');
 const uploadCancelButton = document.querySelector('.img-upload__cancel');
+const submitButton = document.querySelector('.img-upload__submit');
+
 let firstOpen = true;
 
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
@@ -51,11 +52,17 @@ const validateHashtag = (hashtag) => {
   return result;
 };
 
-const pristine = new Pristine(form);
+const pristine = new Pristine(form, {
+  classTo: 'input-container',
+  errorTextParent: 'input-container',
+  errorTextTag: 'p',
+  errorTextClass: 'form__error'
+});
 
 pristine.addValidator(
   form.querySelector('.text__hashtags'),
-  validateHashtag
+  validateHashtag,
+  'Некорректный хэштег'
 );
 
 uploadCancelButton.addEventListener('click', () => closeForm());
@@ -83,14 +90,10 @@ uploadFile.addEventListener('change', () => {
 });
 
 
-// TODO: remove event listeners when need no more
-
 form.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();
   evt.preventDefault();
-  if (!isValid) {
-    showPopupFail();
-  } else {
+  if (isValid) {
     const formData = new FormData(evt.target);
     setUserFormSubmit(formData);
   }

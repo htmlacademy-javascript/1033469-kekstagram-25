@@ -11,7 +11,6 @@ let currentScaleValue = RESCALE_MAX;
 
 const setRescale = () => {
   scaleControlValue.value = `${RESCALE_MAX}%`;
-  console.log(scaleControlValue.value);
   currentScaleValue = RESCALE_MAX;
   scaleButtonBigger.addEventListener('click', () => {
     if (currentScaleValue < RESCALE_MAX) {
@@ -33,7 +32,6 @@ const setRescale = () => {
 const resetScale = () => {
   preview.style.transform = 'scale(1)';
   scaleControlValue.value =  `${RESCALE_MAX}%`;
-  console.log(scaleControlValue.value);
   currentScaleValue = RESCALE_MAX;
 };
 
