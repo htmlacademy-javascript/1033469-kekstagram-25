@@ -3,23 +3,26 @@ const scaleButtonSmaller = document.querySelector('.scale__control--smaller');
 const scaleControlValue = document.querySelector('.scale__control--value');
 const preview = document.querySelector('.img-upload__preview img');
 
-let currentScaleValue = 100;
+const RESCALE_STEP = 25;
+const RESCALE_MAX = 100;
+const RESCALE_MIN = 25;
+
+let currentScaleValue = RESCALE_MAX;
 
 const setRescale = () => {
-  scaleControlValue.value = '100%';
-  currentScaleValue = 100;
-
+  scaleControlValue.value = `${RESCALE_MAX}%`;
+  currentScaleValue = RESCALE_MAX;
   scaleButtonBigger.addEventListener('click', () => {
-    if (currentScaleValue < 100) {
-      currentScaleValue += 25;
+    if (currentScaleValue < RESCALE_MAX) {
+      currentScaleValue += RESCALE_STEP;
       scaleControlValue.value = `${currentScaleValue}%`;
       preview.style.transform = `scale(${currentScaleValue/100})`;
     }
   });
 
   scaleButtonSmaller.addEventListener('click', () => {
-    if (currentScaleValue > 25) {
-      currentScaleValue -= 25;
+    if (currentScaleValue > RESCALE_MIN) {
+      currentScaleValue -= RESCALE_STEP;
       scaleControlValue.value = `${currentScaleValue}%`;
       preview.style.transform = `scale(${currentScaleValue/100})`;
     }
@@ -28,8 +31,8 @@ const setRescale = () => {
 
 const resetScale = () => {
   preview.style.transform = 'scale(1)';
-  scaleControlValue.value = '100%';
-  currentScaleValue = 100;
+  scaleControlValue.value =  `${RESCALE_MAX}%`;
+  currentScaleValue = RESCALE_MAX;
 };
 
 export {setRescale, resetScale};

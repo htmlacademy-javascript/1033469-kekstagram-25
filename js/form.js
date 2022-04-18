@@ -1,38 +1,37 @@
-//import {checkLenght} from './util.js';
 import '../pristine/pristine.min.js';
 import {setSlider, resetSlider} from './slider.js';
 import {setRescale, resetScale} from './rescale.js';
+import { setUserFormSubmit } from './fetch.js';
 
+const bodyElement = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
 const formOverlay = document.querySelector('.img-upload__overlay');
-const bodyElement = document.querySelector('body');
-
-
 const uploadFile = document.querySelector('#upload-file');
-
 const uploadCancelButton = document.querySelector('.img-upload__cancel');
 
-setRescale();
-setSlider();
+let firstOpen = true;
 
-const closeForm = () => {
-  formOverlay.classList.add('hidden');
-};
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-uploadCancelButton.addEventListener('click', () => closeForm());
+const fileChooser = document.querySelector('.img-upload__input');
+const preview = document.querySelector('.img-upload__preview img');
 
-form.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape' && !document.querySelector('.form-message')) {
-    closeForm();
+fileChooser.addEventListener('change', () => {
+  const file = fileChooser.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    preview.src = URL.createObjectURL(file);
   }
 });
 
-uploadFile.addEventListener('change', () => {
-  formOverlay.classList.remove('hidden');
-  resetScale();
-  resetSlider();
-  form.reset();
-});
+
+const closeForm = () => {
+  formOverlay.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+};
 
 const validateHashtag = (hashtag) => {
   const pattern = /^#[0-9A-Za-zА-Яа-яЁё]{1,19}$/;
@@ -52,42 +51,59 @@ const validateHashtag = (hashtag) => {
   return result;
 };
 
-//const checkComment = (comment) => checkLenght(comment, 140);
-
-//const button = document.querySelector('.img-upload__control::after');
-
-const pristine = new Pristine(form);
+const pristine = new Pristine(form, {
+  classTo: 'input-container',
+  errorTextParent: 'input-container',
+  errorTextTag: 'p',
+  errorTextClass: 'form__error'
+});
 
 pristine.addValidator(
   form.querySelector('.text__hashtags'),
-  validateHashtag
+  validateHashtag,
+  'Некорректный хэштег'
 );
 
-form.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  let formMessage;
-  if (!isValid) {
-    evt.preventDefault();
-    formMessage =  document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-    formMessage.querySelector('.error__button').classList.add('button');
-  } else {
-    formMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
-    formMessage.querySelector('.success__button').classList.add('button');
+uploadCancelButton.addEventListener('click', () => closeForm());
+
+const handleFormKeydown = (evt) => {
+  if (evt.key === 'Escape' && !document.querySelector('.form-message')) {
+    closeForm();
+
+    form.removeEventListener('keydown', handleFormKeydown);
   }
-  formMessage.style.zIndex = 10;
-  formMessage.classList.add('form-message');
-  const formMessageButton = formMessage.querySelector('button');
-  formMessageButton.addEventListener('click', () => {
-    const message = document.querySelector('.form-message');
-    message.remove();
-  });
-  bodyElement.appendChild(formMessage);
+};
+
+uploadFile.addEventListener('change', () => {
+  form.reset();
+  if (firstOpen) {
+    setRescale();
+    setSlider();
+    firstOpen = false;
+  }
+  resetScale();
+  resetSlider();
+  formOverlay.classList.remove('hidden');
+  bodyElement.classList.add('modal-open');
+  form.addEventListener('keydown', handleFormKeydown);
 });
 
 
-document.addEventListener('keydown', (evt) => {
+form.addEventListener('submit', (evt) => {
+  const isValid = pristine.validate();
+  evt.preventDefault();
+  if (isValid) {
+    const formData = new FormData(evt.target);
+    setUserFormSubmit(formData);
+  }
+});
+
+const handleMessageKeydown = (evt) => {
   if (evt.key === 'Escape' && document.querySelector('.form-message')) {
     const formMessage = document.querySelector('.form-message');
     formMessage.remove();
   }
-});
+  document.removeEventListener('keydown', handleFormKeydown);
+};
+
+document.addEventListener('keydown', handleMessageKeydown);
