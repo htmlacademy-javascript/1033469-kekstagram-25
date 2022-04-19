@@ -1,5 +1,6 @@
 import '../nouislider/nouislider.js';
 
+const sliderContainer = document.querySelector('.effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
 const radioElements = document.querySelectorAll('.effects__radio');
@@ -38,11 +39,13 @@ const setSlider = () => {
       radioElements[i].addEventListener('change', (evt) => {
         previewImg.className = '';
         if (evt.target.value === 'none') {
+          sliderContainer.classList.add('hidden');
           sliderElement.classList.add('hidden');
           previewImg.style.filter = 'none';
           filterType = 'none';
         }
         else {
+          sliderContainer.classList.remove('hidden');
           sliderElement.classList.remove('hidden');
           previewImg.style.filter = '';
           previewImg.classList.add(`effects__preview--${evt.target.value}`);

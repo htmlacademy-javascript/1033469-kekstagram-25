@@ -1,4 +1,4 @@
-import {min} from './util.js';
+import {getMin} from './util.js';
 
 const bodyElement = document.querySelector('body');
 const pictures = document.querySelector('.pictures');
@@ -59,12 +59,12 @@ const getBigPicture = (picture) => {
       }
       const allComments = getCommentListElement(picture.dataset.commentList);
       const commentsNumber = picture.querySelector('.picture__comments').textContent;
-      let showCommentCounter =  min(5, commentsNumber);
+      let showCommentCounter =  getMin(5, commentsNumber);
       const commentCount = document.querySelector('.comments-count--showed');
       commentCount.textContent = showCommentCounter;
       commentsLoaderButton.addEventListener('click', () => {
         if (commentsNumber > showCommentCounter) {
-          const tmp = min(commentsNumber, showCommentCounter+5);
+          const tmp = getMin(commentsNumber, showCommentCounter+5);
           for (let i = showCommentCounter; i < tmp; i++) {
             comments.querySelector(`.social__comment:nth-child(${  i })`).classList.remove('hidden');
           }

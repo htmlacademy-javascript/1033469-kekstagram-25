@@ -8,7 +8,6 @@ const RANDOM_PICTURE_NUMBER = 10;
 
 const template = document.querySelector('#picture').content;
 const newPic = template.querySelector('.picture');
-const fragment = document.createDocumentFragment();
 const pictures = document.querySelector('.pictures');
 let loadedData = [];
 
@@ -26,7 +25,7 @@ const getComments = (comments) => {
   return commentString;
 };
 
-const createPicture = (description) => {
+const createPicture = (description, fragment) => {
   const picture = newPic.cloneNode(true);
   const image = picture.querySelector('.picture__img');
   image.src = description.url;
@@ -47,34 +46,30 @@ const deleteAllPictures = () => {
 };
 
 const createAllPictures = (descriptionList) => {
+  const fragment = document.createDocumentFragment();
   for (const description of descriptionList) {
-    createPicture(description);
+    createPicture(description, fragment);
   }
   pictures.appendChild(fragment);
   addPictureEventListeners();
 };
 
 const createRandomPictures = (descriptionList) => {
+  const fragment = document.createDocumentFragment();
   const tmp = generateRandomList(descriptionList.length);
   for (let i = 0; i < RANDOM_PICTURE_NUMBER; i++) {
-    createPicture(descriptionList[tmp[i]-1]);
+    createPicture(descriptionList[tmp[i]-1], fragment);
   }
   pictures.appendChild(fragment);
   addPictureEventListeners();
 };
 
 const createDiscussedPictures = (descriptionList) => {
-  for (let i = 0; i < descriptionList.length; i++) {
-    for (let j = 0; j < descriptionList.length - 1; j++) {
-      if (descriptionList[j].comments.length < descriptionList[j+1].comments.length) {
-        const tmpItem = descriptionList[j];
-        descriptionList[j] = descriptionList[j+1];
-        descriptionList[j+1] = tmpItem;
-      }
-    }
-  }
-  for (const description of descriptionList) {
-    createPicture(description);
+  const fragment = document.createDocumentFragment();
+  const sortedDescriptions = descriptionList.slice();
+  sortedDescriptions.sort((a, b) => b.comments.length - a.comments.length);
+  for (const description of sortedDescriptions) {
+    createPicture(description, fragment);
   }
   pictures.appendChild(fragment);
   addPictureEventListeners();
@@ -101,27 +96,30 @@ const buttonDefault = document.querySelector('#filter-default');
 const buttonRandom = document.querySelector('#filter-random');
 const buttonDiscussed = document.querySelector('#filter-discussed');
 
-buttonDefault.addEventListener('click', debounce(
-  () => {
-    deleteAllPictures();
-    createAllPictures(loadedData);
-  },
-  RERENDER_DELAY,
-));
+const handleButtonClick = (filterName) => {
+  deleteAllPictures();
+  switch (filterName) {
+    case 'random':
+      createRandomPictures(loadedData);
+      break;
+    case 'discussed':
+      createDiscussedPictures(loadedData);
+      break;
+    default:
+      createAllPictures(loadedData);
+  }
+};
 
-buttonRandom.addEventListener('click', debounce(
-  () => {
-    deleteAllPictures();
-    createRandomPictures(loadedData);
-  },
-  RERENDER_DELAY,
-));
+const handleClickDebaunced = debounce(handleButtonClick);
 
-buttonDiscussed.addEventListener('click',debounce(
-  () => {
-    deleteAllPictures();
-    createDiscussedPictures(loadedData);
-  },
-  RERENDER_DELAY,
-));
+buttonDefault.addEventListener('click', () => {
+  handleClickDebaunced('default');
+});
 
+buttonRandom.addEventListener('click', () => {
+  handleClickDebaunced('random');
+});
+
+buttonDiscussed.addEventListener('click', () => {
+  handleClickDebaunced('discussed');
+});
