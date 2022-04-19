@@ -110,7 +110,7 @@ const handleButtonClick = (filterName) => {
   }
 };
 
-const handleClickDebaunced = debounce(handleButtonClick);
+const handleClickDebaunced = debounce(handleButtonClick, RERENDER_DELAY);
 
 buttonDefault.addEventListener('click', () => {
   handleClickDebaunced('default');
