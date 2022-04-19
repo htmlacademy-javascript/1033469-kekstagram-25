@@ -8,46 +8,32 @@ const generateNumber = (from, to) => {
 };
 
 const generateRandomList = (number) => {
-  const list = [];
+  const randomNumbers = [];
   for (let i = 1; i <= number; i++) {
-    list.push(i);
+    randomNumbers.push(i);
   }
   for (let i = 0; i < number; i++) {
     const j = generateNumber(0, number-1);
-    const tmp = list[i];
-    list[i] = list[j];
-    list[j] = tmp;
+    const tmp = randomNumbers[i];
+    randomNumbers[i] = randomNumbers[j];
+    randomNumbers[j] = tmp;
   }
-  return list;
+  return randomNumbers;
 };
 
 
-const checkLenght = (string, maxLength) => string.length <= maxLength;
-
-const min = (a, b) => {
+const getMin = (a, b) => {
   if (a < b) {return a;}
   return b;
 };
 
-function debounce (callback, timeoutDelay = 500) {
+const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
 
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-}
+};
 
-function throttle (callback, delayBetweenFrames) {
-  let lastTime = 0;
-
-  return (...rest) => {
-    const now = new Date();
-    if (now - lastTime >= delayBetweenFrames) {
-      callback.apply(this, rest);
-      lastTime = now;
-    }
-  };
-}
-
-export {generateNumber, generateRandomList, checkLenght, min, debounce, throttle};
+export {generateNumber, generateRandomList, getMin, debounce};

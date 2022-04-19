@@ -1,7 +1,8 @@
 import { closeForm } from './form.js';
 
+const bodyElement = document.querySelector('body');
+
 const showPopupSuccess = () => {
-  const bodyElement = document.querySelector('body');
   const formMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
   formMessage.querySelector('.success__button').classList.add('button');
   formMessage.style.zIndex = 10;
@@ -16,7 +17,6 @@ const showPopupSuccess = () => {
 };
 
 const showPopupFail = () => {
-  const bodyElement = document.querySelector('body');
   const formMessage =  document.querySelector('#error').content.querySelector('.error').cloneNode(true);
   formMessage.querySelector('.error__button').classList.add('button');
   formMessage.style.zIndex = 10;

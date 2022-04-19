@@ -9,6 +9,9 @@ const formOverlay = document.querySelector('.img-upload__overlay');
 const uploadFile = document.querySelector('#upload-file');
 const uploadCancelButton = document.querySelector('.img-upload__cancel');
 
+const hashtagElement = form.querySelector('.text__hashtags');
+const commentElement = form.querySelector('.text__description');
+
 let firstOpen = true;
 
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
@@ -19,6 +22,8 @@ const preview = document.querySelector('.img-upload__preview img');
 fileChooser.addEventListener('change', () => {
   const file = fileChooser.files[0];
   const fileName = file.name.toLowerCase();
+  const sliderContainer = document.querySelector('.effect-level');
+  sliderContainer.classList.add('hidden');
 
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
@@ -68,7 +73,7 @@ pristine.addValidator(
 uploadCancelButton.addEventListener('click', () => closeForm());
 
 const handleFormKeydown = (evt) => {
-  if (evt.key === 'Escape' && !document.querySelector('.form-message')) {
+  if (evt.key === 'Escape' && !document.querySelector('.form-message') && !(hashtagElement === document.activeElement || commentElement === document.activeElement)) {
     closeForm();
 
     form.removeEventListener('keydown', handleFormKeydown);
@@ -85,7 +90,7 @@ uploadFile.addEventListener('change', () => {
   resetSlider();
   formOverlay.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-  form.addEventListener('keydown', handleFormKeydown);
+  bodyElement.addEventListener('keydown', handleFormKeydown);
 });
 
 
