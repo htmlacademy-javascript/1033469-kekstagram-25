@@ -40,9 +40,9 @@ const createPicture = (description, fragment) => {
 };
 
 const deleteAllPictures = () => {
-  while (pictures.querySelector('.picture')) {
-    pictures.querySelector('.picture').remove();
-  }
+  pictures.querySelectorAll('.picture').forEach((picture) => {
+    picture.remove();
+  });
 };
 
 const createAllPictures = (descriptionList) => {
